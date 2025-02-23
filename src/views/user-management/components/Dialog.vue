@@ -1,26 +1,26 @@
 <template>
-  <el-dialog v-model="dialogVisible" title="编辑用户" width="500" :before-close="handleClose">
-    <el-form :inline="true" :model="user" class="demo-form-inline">
-    <el-form-item label="姓名">
-      <el-input v-model="user.name" placeholder="请输入姓名" clearable />
-    </el-form-item>
-    <el-form-item label="年龄">
-      <el-input v-model="user.age" placeholder="请输入年龄" clearable />
-    </el-form-item>
-    <el-form-item label="城市">
-      <el-select v-model="user.city" placeholder="请选择城市" clearable>
-        <el-option label="北京市" value="北京市" />
-        <el-option label="上海市" value="上海市" />
-        <el-option label="广州市" value="广州市" />
-        <el-option label="深圳市" value="深圳市" />
-        <el-option label="重庆市" value="重庆市" />
-        <el-option label="成都市" value="成都市" />
-      </el-select>
-    </el-form-item>
+  <el-dialog v-bind="$attrs" width="500" :before-close="handleClose">
+    <el-form :inline="true" :model="userInfo" class="demo-form-inline">
+      <el-form-item label="姓名">
+        <el-input v-model="userInfo.name" placeholder="请输入姓名" clearable />
+      </el-form-item>
+      <el-form-item label="年龄">
+        <el-input v-model="userInfo.age" placeholder="请输入年龄" clearable />
+      </el-form-item>
+      <el-form-item label="城市">
+        <el-select v-model="userInfo.city" placeholder="请选择城市" clearable>
+          <el-option label="北京市" value="北京市" />
+          <el-option label="上海市" value="上海市" />
+          <el-option label="广州市" value="广州市" />
+          <el-option label="深圳市" value="深圳市" />
+          <el-option label="重庆市" value="重庆市" />
+          <el-option label="成都市" value="成都市" />
+        </el-select>
+      </el-form-item>
 
-    <el-form-item label="活动时间">
-      <el-date-picker   value-format="YYYY-MM-DD" v-model="user.date" type="date" placeholder="请选择时间" clearable />
-    </el-form-item>
+      <el-form-item label="活动时间">
+        <el-date-picker value-format="YYYY-MM-DD" v-model="userInfo.date" type="date" placeholder="请选择时间" clearable />
+      </el-form-item>
     </el-form>
     <template #footer>
       <div class="dialog-footer">
@@ -34,30 +34,41 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, defineEmits, defineProps, onMounted,computed , onUpdateddated, onUpdated} from 'vue'
+import { ref, defineEmits, defineProps, onMounted, computed, onUpdateddated, onUpdated } from 'vue'
 import { ElMessageBox } from 'element-plus'
 const props = defineProps({
-  dialogVisible: {
-    type: Boolean
-  },
-  userInfo:{
-    type : Object
+  // dialogVisible: {
+  //   type: Boolean
+  // },
+  userInfo: {
+    type: Object
   }
 })
+const val1 = ref(1)
 
-const emits = defineEmits(['dialogClose','updateUserInfo'])
+const isEidt = ref(false)
+
+const emits = defineEmits(['update:userInfo'])
 const dialogClose = () => {
   emits('dialogClose')
 }
-const user = props.userInfo
 
-const dialogVisible = computed({
-  get: ()=>props.dialogVisible,
-  set: ()=>emits('dialogClose')
+const userInfo = computed({
+  get: () => props.userInfo,
+  set: (val) => emits('update:userInfo', val)
 })
-const confirmEdit =()=>{
-emits('updateUserInfo', user)
-dialogClose()
+
+// const dialogVisible = computed({
+//   get: () => props.dialogVisible,
+//   set: () => emits('dialogClose')
+// })
+const confirmEdit = () => {
+  emits('updateUserInfo', user)
+  dialogClose()
+}
+
+const open = () => {
+  console.log('open')
 }
 
 const handleClose = (done: () => void) => {

@@ -23,7 +23,7 @@
       <el-button type="primary" @click="onSubmit">查询</el-button>
     </el-form-item>
   </el-form>
-  <el-button type="primary" @click="handleEdit">新增用户</el-button>
+  <el-button type="primary" @click="dialogVisible = true, value = '新增用户'">新增用户</el-button>
 
   <el-table :data="tableDate" style="width: 100%">
     <el-table-column prop="name" label="姓名" width="180" />
@@ -31,18 +31,20 @@
     <el-table-column prop="city" label="城市" width="180" />
     <el-table-column prop="date" label="活动时间" />
     <el-table-column label="操作" width="180">
-      <template #default="scope">
-        <el-icon @click="handleEdit(scope.$index, scope.row)" size="18">
+      <template #default="{ row, index }">
+        <el-icon @click="handleEdit(row)" size="18">
           <Edit />
         </el-icon>
-        <el-icon @click="handleDelete(scope.$index, scope.row)" size="18" style="margin-left: 10px">
+        <el-icon @click="handleDelete(index, row)" size="18" style="margin-left: 10px">
           <Delete />
         </el-icon>
       </template>
     </el-table-column>
   </el-table>
-  <Dialog :dialogVisible="dialogVisible" @dialogClose="dialogClose" :userInfo="userCHose"
-    @updateUserInfo="updateUserInfo"></Dialog>
+
+  <Dialog v-model="dialogVisible" title="用户信息111" @dialogClose="dialogClose" :userInfo="userInfo"
+    @open="() => (console.log('open111'))">
+  </Dialog>
 
 
 </template>
@@ -58,6 +60,7 @@ const user = reactive({
   city: '',
   date: '',
 });
+const value = ref('')
 
 const originalTableData = reactive([
   {
@@ -112,6 +115,10 @@ const onSubmit = () => {
   console.log('submit!');
 };
 
+const open = () => {
+  console.log('open1111');
+}
+
 const onAdd = () => {
 
 }
@@ -119,26 +126,14 @@ const dialogVisible = ref(false)
 const dialogClose = () => {
   dialogVisible.value = false
 }
-const userCHose = reactive({})
+const userInfo = ref({})
 // 编辑操作处理函数
-const handleEdit = (index: number, row) => {
-  if (row == undefined) {
-    Object.assign(userCHose, {
-      name: '',
-      age: '',
-      city: '',
-      date: '',
-      index:''
-    })
-
-  } else {
-    Object.assign(userCHose, row, { 'index': index })
-  }
-
+const handleEdit = (row) => {
+  userInfo.value = row
   dialogVisible.value = true
 }
 const updateUserInfo = (updatedUser) => {
-  if(updatedUser.index==='') {
+  if (updatedUser.index === '') {
     tableDate.push(updatedUser)
   } else {
     Object.assign(tableDate[updatedUser.index], updatedUser);
