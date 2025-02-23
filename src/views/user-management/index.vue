@@ -23,7 +23,7 @@
       <el-button type="primary" @click="onSubmit">查询</el-button>
     </el-form-item>
   </el-form>
-  <el-button type="primary" @click="onAdd">新增用户</el-button>
+  <el-button type="primary" @click="handleEdit">新增用户</el-button>
 
   <el-table :data="tableDate" style="width: 100%">
     <el-table-column prop="name" label="姓名" width="180" />
@@ -31,17 +31,18 @@
     <el-table-column prop="city" label="城市" width="180" />
     <el-table-column prop="date" label="活动时间" />
     <el-table-column label="操作" width="180">
-        <template #default="scope">
-          <el-icon @click="handleEdit(scope.$index, scope.row)"size="18">
-            <Edit />
-          </el-icon>
-          <el-icon @click="handleDelete(scope.$index, scope.row)" size="18" style="margin-left: 10px">
-            <Delete />
-          </el-icon>
-        </template>
-      </el-table-column>
+      <template #default="scope">
+        <el-icon @click="handleEdit(scope.$index, scope.row)" size="18">
+          <Edit />
+        </el-icon>
+        <el-icon @click="handleDelete(scope.$index, scope.row)" size="18" style="margin-left: 10px">
+          <Delete />
+        </el-icon>
+      </template>
+    </el-table-column>
   </el-table>
-<Dialog :dialogVisible="dialogVisible" @dialogClose="dialogClose" :userInfo="userCHose" ></Dialog>
+  <Dialog :dialogVisible="dialogVisible" @dialogClose="dialogClose" :userInfo="userCHose"
+    @updateUserInfo="updateUserInfo"></Dialog>
 
 
 </template>
@@ -55,7 +56,6 @@ const user = reactive({
   name: '',
   age: '',
   city: '',
-
   date: '',
 });
 
@@ -103,32 +103,51 @@ const originalTableData = reactive([
 
   }
 ])
-const  tableDate = originalTableData
+const tableDate = originalTableData
 
-function filteredPerson () {
+function filteredPerson() {
   originalTableData
 }
 const onSubmit = () => {
   console.log('submit!');
 };
 
-const onAdd= ()=>{
+const onAdd = () => {
 
 }
 const dialogVisible = ref(false)
-const dialogClose = ()=> {
+const dialogClose = () => {
   dialogVisible.value = false
 }
-let userCHose= reactive({})
+const userCHose = reactive({})
 // 编辑操作处理函数
-const handleEdit = (index: number, row ) => {
-   Object.assign(userCHose, row)
+const handleEdit = (index: number, row) => {
+  if (row == undefined) {
+    Object.assign(userCHose, {
+      name: '',
+      age: '',
+      city: '',
+      date: '',
+      index:''
+    })
+
+  } else {
+    Object.assign(userCHose, row, { 'index': index })
+  }
+
   dialogVisible.value = true
 }
+const updateUserInfo = (updatedUser) => {
+  if(updatedUser.index==='') {
+    tableDate.push(updatedUser)
+  } else {
+    Object.assign(tableDate[updatedUser.index], updatedUser);
+  }
 
+}
 // 删除操作处理函数
 const handleDelete = (index: number, row) => {
-  tableDate.splice(index,1)
+  tableDate.splice(index, 1)
   console.log(index, row)
 }
 </script>

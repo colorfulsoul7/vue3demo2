@@ -1,6 +1,5 @@
 <script setup>
 import Sidebar from './Sidebar.vue'
-import Usermanagement from '@/views/user-management/index.vue'
 </script>
 <template>
   <div class="common-layout">
@@ -9,8 +8,8 @@ import Usermanagement from '@/views/user-management/index.vue'
       <el-container>
         <el-aside width="200px"><Sidebar></Sidebar></el-aside>
         <el-container>
-          <el-main><Usermanagement></Usermanagement></el-main>
-          <el-footer>Footer</el-footer>
+          <el-main><router-view></router-view></el-main>
+          <el-footer>xx科技公司开发</el-footer>
         </el-container>
       </el-container>
     </el-container>
