@@ -130,7 +130,11 @@ const handleEdit = (index: number, row) => {
   dialogVisible.value = true
 }
 const confirmEdit = (userInfo) => {
-  Object.assign(tableDate[userInfo.index], userInfo)
+  if (userInfo.index === undefined) {
+    tableDate.push(userInfo)
+  } else {
+    Object.assign(tableDate[userInfo.index], userInfo);
+  }
 }
 // 删除操作处理函数
 const handleDelete = (index: number, row) => {
