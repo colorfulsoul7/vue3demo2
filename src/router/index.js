@@ -2,9 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '@/views/home/index.vue';
 import UserManagement from '@/views/user-management/index.vue';
 import FinancialManagement from '@/views/financial-management/index.vue';
-import AdministratorIfo from '@/views/administrator-ifo/index.vue';
+import AdministratorInfo from '@/views/administrator-info/index.vue';
 
-const routes = [
+export const routes = [
   {
     path: '/',
     name:'主页',
@@ -22,7 +22,7 @@ const routes = [
   },
   { path: '/administrator-ifo', 
     name:'管理员信息',
-    component: AdministratorIfo },
+    component: AdministratorInfo },
 ];
 
 const router = createRouter({
