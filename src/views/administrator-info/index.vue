@@ -1,6 +1,6 @@
 <template>
   <h1>管理员页面</h1>
-<div v-if="administratoInfo.gender != ''">  <p>{{ `您好：${administratoInfo.name.title} ${administratoInfo.name.first} ${administratoInfo.name.last}` }}</p>
+<div v-if="administratoInfo.gender != ''" v-loading="loading">  <p>{{ `您好：${administratoInfo.name.title} ${administratoInfo.name.first} ${administratoInfo.name.last}` }}</p>
   <img :src="administratoInfo.picture.large" />
   <p>{{ `性别：${administratoInfo.gender}` }}</p>
   <p>{{ `年龄：${administratoInfo.dob.age}` }}</p>
@@ -13,7 +13,7 @@
 </template>
 <script lang="ts" setup>
 import { getAdministratorInfo } from '@/api/administrator-info/index'
-import { reactive, onMounted } from 'vue'
+import { reactive, onMounted, ref } from 'vue'
 const administratoInfo = reactive({
   "gender": "",
   "name": {
@@ -44,10 +44,22 @@ const administratoInfo = reactive({
     "thumbnail": ""
   }
 })
-onMounted(async () => {
-  const data = await getAdministratorInfo()
+
+const loading = ref(false)
+
+
+// 异步函数 1
+const queryAdministratorInfo = async () =>{
+  loading.value = true
+  const data = await getAdministratorInfo().finally(() => loading.value = false)
   console.log(data)
   Object.assign(administratoInfo, data.results[0])
+}
+  
+onMounted(() => {
+  queryAdministratorInfo(); // 异步函数1
+  // 异步函数 2
+  // .........
 })
 
 </script>
