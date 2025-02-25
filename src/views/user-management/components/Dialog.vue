@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineEmits, defineProps, computed, onMounted } from 'vue'
+import { defineEmits, computed, onMounted } from 'vue'
 import { ElMessageBox } from 'element-plus'
 const props = defineProps({
   dialogVisible: {

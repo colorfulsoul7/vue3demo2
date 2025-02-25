@@ -1,5 +1,6 @@
 <script setup>
 import Sidebar from './Sidebar.vue'
+import ParentTest from '../views/test/ParentTest.vue';
 </script>
 <template>
   <div class="common-layout">
@@ -14,4 +15,5 @@ import Sidebar from './Sidebar.vue'
       </el-container>
     </el-container>
   </div>
+  <ParentTest msg="透传信息" @click="e=>console.log('透传事件',e.target )"></ParentTest>
 </template>
