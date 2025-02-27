@@ -45,7 +45,7 @@ const props = defineProps({
   },
 })
 
-const emits = defineEmits(['dialogClose', 'update:modelValue','confirmEdit'])
+const emits = defineEmits(['dialogClose', 'update:modelValue', 'confirmEdit'])
 const dialogClose = () => {
   emits('dialogClose')
 }
